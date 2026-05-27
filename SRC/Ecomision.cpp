@@ -106,11 +106,6 @@ void EcoMision::mostrarMenuZona() const {
 }
 
 void EcoMision::procesarOpcion(const std::string& opcion) {
-    if (opcion == "salir") {
-        activo = false;
-        mostrarPantallaFinal(false);
-        return;
-    }
     if (opcion == "estado") {
         explorador.mostrarEstado();
         return;
@@ -119,7 +114,29 @@ void EcoMision::procesarOpcion(const std::string& opcion) {
         reserva.mostrarZonas();
         return;
     }
-    explorador.getZonaActual()->interactuar(opcion, &explorador);
+
+    if (opcion.empty()) {
+        std::cout << "  Comando invalido." << std::endl;
+        return;
+    }
+
+    bool esNumero = true;
+    int numeroConvertido = 0;
+
+    for (int i = 0; i < (int)opcion.length(); i++) {
+        char c = opcion[i];
+        if (c < '0' || c > '9') {
+            esNumero = false;
+            break;
+        }
+        numeroConvertido = (numeroConvertido * 10) + (c - '0');
+    }
+
+    if (esNumero) {
+        explorador.getZonaActual()->interactuar(numeroConvertido, &explorador);
+    } else {
+        explorador.getZonaActual()->interactuar(opcion, &explorador);
+    }
 }
 
 void EcoMision::verificarFinJuego() {
