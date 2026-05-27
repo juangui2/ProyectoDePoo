@@ -120,6 +120,12 @@ void EcoMision::procesarOpcion(const std::string& opcion) {
         return;
     }
 
+    if (opcion == "salir") {
+        std::cout << "  Saliendo del juego..." << std::endl;
+        activo = false;
+        return;
+    }
+
     bool esNumero = true;
     int numeroConvertido = 0;
 
